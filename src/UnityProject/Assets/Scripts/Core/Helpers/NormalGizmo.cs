@@ -9,7 +9,10 @@ namespace Valtaroth.Core.Helpers
 	public class NormalGizmo : MonoBehaviour
 	{
 		[SerializeField]
-		private Color m_color = Color.yellow;
+		private Color m_defaultColor = Color.grey;
+
+		[SerializeField]
+		private Color m_borderColor = Color.red;
 
 		private MeshFilter m_meshFilter;
 		
@@ -27,7 +30,7 @@ namespace Valtaroth.Core.Helpers
 			Mesh mesh = Application.isPlaying ? m_meshFilter.mesh : m_meshFilter.sharedMesh;
 
 			Color previous = Gizmos.color;
-			Gizmos.color = m_color;
+			Gizmos.color = m_defaultColor;
 
 			int resolution = Mathf.RoundToInt(Mathf.Sqrt(mesh.vertices.Length));
 			float scale = 1.0f / resolution;
@@ -36,7 +39,7 @@ namespace Valtaroth.Core.Helpers
 			{
 				bool isBorder = v < resolution || v > mesh.vertices.Length - resolution || v % resolution == 0 || v % resolution == resolution - 1;
 
-				Gizmos.color = isBorder ? Color.red : Color.grey;
+				Gizmos.color = isBorder ? m_borderColor : m_defaultColor;
 				Gizmos.DrawRay(transform.position + mesh.vertices[v], mesh.normals[v] * scale);
 			}
 
