@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Hover
+namespace Valtaroth.Hover
 {
 	[RequireComponent(typeof(Rigidbody))]
 	public class HoverController : MonoBehaviour

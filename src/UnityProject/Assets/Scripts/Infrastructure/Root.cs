@@ -5,7 +5,7 @@ using Valtaroth.Core.Infrastructure;
 using Valtaroth.Core.Logging;
 using Valtaroth.Core.UI;
 
-namespace Hover.Infrastructure
+namespace Valtaroth.Hover.Infrastructure
 {
 	/// <summary>
 	/// Class representing the main entry point of the application.

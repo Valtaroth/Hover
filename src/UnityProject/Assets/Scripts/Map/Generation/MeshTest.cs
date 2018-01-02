@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using UnityEngine;
 using Valtaroth.Core.Helpers;
 using Debug = UnityEngine.Debug;
 
-namespace Hover.Map.Generation
+namespace Valtaroth.Hover.Map.Generation
 {
 	public class MeshTest : MonoBehaviour
 	{

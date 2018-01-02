@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Hover.Map.Generation
+namespace Valtaroth.Hover.Map.Generation
 {
 	public static class TerrainMeshCreator
 	{
@@ -42,35 +41,35 @@ namespace Hover.Map.Generation
 			mesh.RecalculateNormals();
 			mesh.RecalculateTangents();
 			
-			return RemoveBorder(mesh, overdrawResolution + 1, resolution);
+			return RemoveBorder(mesh, vertices, colors, normals, uv, overdrawResolution + 1, resolution);
 		}
 
-		private static Mesh RemoveBorder(Mesh mesh, int currentResolution, int newResolution)
+		private static Mesh RemoveBorder(Mesh mesh, Vector3[] vertices, Color[] colors, Vector3[] normals, Vector2[] uv, int currentResolution, int newResolution)
 		{
 			mesh.triangles = new int[0];
 
-			List<Vector3> vertices = new List<Vector3>();
-			List<Color> colors = new List<Color>();
-			List<Vector3> normals = new List<Vector3>();
-			List<Vector2> uv = new List<Vector2>();
+			List<Vector3> culledVertices = new List<Vector3>(vertices.Length);
+			List<Color> culledColors = new List<Color>(colors.Length);
+			List<Vector3> culledNormals = new List<Vector3>(normals.Length);
+			List<Vector2> culledUV = new List<Vector2>(uv.Length);
 			
-			for (int v = mesh.vertices.Length - 1; v >= 0; v--)
+			for (int v = vertices.Length - 1; v >= 0; v--)
 			{
-				if (v < currentResolution || v > mesh.vertices.Length - currentResolution || v % currentResolution == 0 || v % currentResolution == currentResolution - 1)
+				if (v < currentResolution || v > vertices.Length - currentResolution || v % currentResolution == 0 || v % currentResolution == currentResolution - 1)
 				{
 					continue;
 				}
 
-				vertices.Insert(0, mesh.vertices[v]);
-				colors.Insert(0, mesh.colors[v]);
-				normals.Insert(0, mesh.normals[v]);
-				uv.Insert(0, mesh.uv[v]);
+				culledVertices.Add(vertices[v]);
+				culledColors.Add(colors[v]);
+				culledNormals.Add(normals[v]);
+				culledUV.Add(uv[v]);
 			}
 			
-			mesh.vertices = vertices.ToArray();
-			mesh.colors = colors.ToArray();
-			mesh.normals = normals.ToArray();
-			mesh.uv = uv.ToArray();
+			mesh.vertices = culledVertices.ToArray();
+			mesh.colors = culledColors.ToArray();
+			mesh.normals = culledNormals.ToArray();
+			mesh.uv = culledUV.ToArray();
 
 			mesh.RecalculateBounds();
 			mesh.triangles = CalculateTriangles(newResolution);
