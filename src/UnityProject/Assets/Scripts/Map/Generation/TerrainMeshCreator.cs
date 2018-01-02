@@ -17,7 +17,7 @@ namespace Valtaroth.Hover.Map.Generation
 			Color[] colors = new Color[vertices.Length];
 			Vector3[] normals = new Vector3[vertices.Length];
 			Vector2[] uv = new Vector2[vertices.Length];
-			
+
 			for (int v = 0, z = 0; z <= overdrawResolution; z++)
 			{
 				for (int x = 0; x <= overdrawResolution; x++, v++)
@@ -37,11 +37,11 @@ namespace Valtaroth.Hover.Map.Generation
 			mesh.uv = uv;
 
 			mesh.triangles = CalculateTriangles(overdrawResolution);
-			
+
 			mesh.RecalculateNormals();
 			mesh.RecalculateTangents();
-			
-			return RemoveBorder(mesh, vertices, colors, normals, uv, overdrawResolution + 1, resolution);
+
+			return RemoveBorder(mesh, mesh.vertices, mesh.colors, mesh.normals, mesh.uv, overdrawResolution + 1, resolution);
 		}
 
 		private static Mesh RemoveBorder(Mesh mesh, Vector3[] vertices, Color[] colors, Vector3[] normals, Vector2[] uv, int currentResolution, int newResolution)
@@ -52,7 +52,7 @@ namespace Valtaroth.Hover.Map.Generation
 			List<Color> culledColors = new List<Color>(colors.Length);
 			List<Vector3> culledNormals = new List<Vector3>(normals.Length);
 			List<Vector2> culledUV = new List<Vector2>(uv.Length);
-			
+
 			for (int v = vertices.Length - 1; v >= 0; v--)
 			{
 				if (v < currentResolution || v > vertices.Length - currentResolution || v % currentResolution == 0 || v % currentResolution == currentResolution - 1)
@@ -65,7 +65,7 @@ namespace Valtaroth.Hover.Map.Generation
 				culledNormals.Add(normals[v]);
 				culledUV.Add(uv[v]);
 			}
-			
+
 			mesh.vertices = culledVertices.ToArray();
 			mesh.colors = culledColors.ToArray();
 			mesh.normals = culledNormals.ToArray();
