@@ -1,33 +1,47 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Valtaroth.Hover.Map.Generation
 {
+	/// <summary>
+	/// Utility class used to create planar meshes from noise functions.
+	/// </summary>
 	public static class TerrainMeshCreator
 	{
-		public static Mesh Create(Vector3 position, int resolution, Gradient coloring)
+		public static Mesh Create(Vector3 position, TerrainChunkSettings settings)
 		{
 			Mesh mesh = new Mesh();
 			mesh.name = "Terrain";
 
-			int overdrawResolution = resolution + 2;
-			float stepSize = 1f / resolution;
+			return Create(mesh, position, settings);
+		}
+
+		public static Mesh Create(Mesh mesh, Vector3 position, TerrainChunkSettings settings)
+		{
+			int overdrawResolution = settings.DetailResolution + 2;
+			float stepSize = (float)settings.Length / settings.DetailResolution;
+			float offset = 0.5f;
 
 			Vector3[] vertices = new Vector3[(overdrawResolution + 1) * (overdrawResolution + 1)];
 			Color[] colors = new Color[vertices.Length];
 			Vector3[] normals = new Vector3[vertices.Length];
 			Vector2[] uv = new Vector2[vertices.Length];
 
+			Vector2 vertex = new Vector2();
 			for (int v = 0, z = 0; z <= overdrawResolution; z++)
 			{
 				for (int x = 0; x <= overdrawResolution; x++, v++)
 				{
-					float noise = Mathf.PerlinNoise(x * stepSize - stepSize - 0.5f + position.x, z * stepSize - stepSize - 0.5f + position.z);
+					vertex.x = x * stepSize - stepSize;
+					vertex.y = z * stepSize - stepSize;
 
-					vertices[v] = new Vector3(x * stepSize - stepSize - 0.5f, noise, z * stepSize - stepSize - 0.5f);
-					colors[v] = coloring.Evaluate(noise);
+					float noise = Mathf.PerlinNoise(vertex.x - offset + position.x, vertex.y - offset + position.z);
+
+					vertices[v] = new Vector3(vertex.x - offset, noise * settings.Height, vertex.y - offset);
+					colors[v] = settings.Coloring.Evaluate(noise);
 					normals[v] = Vector3.up;
-					uv[v] = new Vector2(x * stepSize - stepSize, z * stepSize - stepSize);
+					uv[v] = new Vector2(vertex.x, vertex.y);
 				}
 			}
 
@@ -41,36 +55,30 @@ namespace Valtaroth.Hover.Map.Generation
 			mesh.RecalculateNormals();
 			mesh.RecalculateTangents();
 
-			return RemoveBorder(mesh, mesh.vertices, mesh.colors, mesh.normals, mesh.uv, overdrawResolution + 1, resolution);
+			return RemoveBorder(mesh, mesh.vertices.ToList(), mesh.colors.ToList(), mesh.normals.ToList(), mesh.uv.ToList(), overdrawResolution + 1, settings.DetailResolution);
 		}
 
-		private static Mesh RemoveBorder(Mesh mesh, Vector3[] vertices, Color[] colors, Vector3[] normals, Vector2[] uv, int currentResolution, int newResolution)
+		private static Mesh RemoveBorder(Mesh mesh, List<Vector3> vertices, List<Color> colors, List<Vector3> normals, List<Vector2> uv, int currentResolution, int newResolution)
 		{
 			mesh.triangles = new int[0];
-
-			List<Vector3> culledVertices = new List<Vector3>(vertices.Length);
-			List<Color> culledColors = new List<Color>(colors.Length);
-			List<Vector3> culledNormals = new List<Vector3>(normals.Length);
-			List<Vector2> culledUV = new List<Vector2>(uv.Length);
-
-			for (int v = vertices.Length - 1; v >= 0; v--)
+			
+			int length = vertices.Count;
+			for (int v = length - 1; v >= 0; v--)
 			{
-				if (v < currentResolution || v > vertices.Length - currentResolution || v % currentResolution == 0 || v % currentResolution == currentResolution - 1)
+				if (v < currentResolution || v > length - currentResolution || v % currentResolution == 0 || v % currentResolution == currentResolution - 1)
 				{
-					continue;
+					vertices.RemoveAt(v);
+					colors.RemoveAt(v);
+					normals.RemoveAt(v);
+					uv.RemoveAt(v);
 				}
-
-				culledVertices.Add(vertices[v]);
-				culledColors.Add(colors[v]);
-				culledNormals.Add(normals[v]);
-				culledUV.Add(uv[v]);
 			}
-
-			mesh.vertices = culledVertices.ToArray();
-			mesh.colors = culledColors.ToArray();
-			mesh.normals = culledNormals.ToArray();
-			mesh.uv = culledUV.ToArray();
-
+			
+			mesh.vertices = vertices.ToArray();
+			mesh.colors = colors.ToArray();
+			mesh.normals = normals.ToArray();
+			mesh.uv = uv.ToArray();
+			
 			mesh.RecalculateBounds();
 			mesh.triangles = CalculateTriangles(newResolution);
 

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
 using Valtaroth.Core.Helpers;
+using Valtaroth.Core.Noise;
 using Debug = UnityEngine.Debug;
 
 namespace Valtaroth.Hover.Map.Generation
@@ -35,7 +36,17 @@ namespace Valtaroth.Hover.Map.Generation
 
 					Stopwatch watch = new Stopwatch();
 
-					Mesh mesh = TerrainMeshCreator.Create(position, m_resolution, m_coloring);
+					Mesh mesh = TerrainMeshCreator.Create(
+						position,
+						new TerrainChunkSettings
+						{
+							DetailResolution = m_resolution,
+							Length = 1,
+							Height = 1,
+							NoiseProvider = new PerlinNoiseProvider(),
+							Coloring = m_coloring
+						}
+					);
 
 					watch.Stop();
 					Debug.LogFormat("Created mesh with resolution {0}: {1}ms/{2}ticks", m_resolution, watch.ElapsedMilliseconds, watch.ElapsedTicks);

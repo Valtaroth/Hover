@@ -2,6 +2,9 @@
 
 namespace Valtaroth.Hover.Map
 {
+	/// <summary>
+	/// Class representing a square chunk of terrain.
+	/// </summary>
 	public class TerrainChunk
 	{
 		public TerrainChunkPosition Position { get; private set; }

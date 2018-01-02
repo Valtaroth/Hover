@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4399533197287364}
   - component: {fileID: 33028395744122310}
   - component: {fileID: 23181338913363934}
-  - component: {fileID: 114300310761796924}
+  - component: {fileID: 64508089338415440}
   m_Layer: 0
   m_Name: TerrainChunk
   m_TagString: Untagged
@@ -83,16 +83,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1210235550854486}
   m_Mesh: {fileID: 0}
---- !u!114 &114300310761796924
-MonoBehaviour:
+--- !u!64 &64508089338415440
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1210235550854486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 525680c5a5564234e9e922c663a1866d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_defaultColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_borderColor: {r: 1, g: 0, b: 0, a: 1}
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
