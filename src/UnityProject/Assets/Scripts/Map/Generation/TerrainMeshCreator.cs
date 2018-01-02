@@ -36,7 +36,7 @@ namespace Valtaroth.Hover.Map.Generation
 					vertex.x = x * stepSize - stepSize;
 					vertex.y = z * stepSize - stepSize;
 
-					float noise = Mathf.PerlinNoise(vertex.x - offset + position.x, vertex.y - offset + position.z);
+					float noise = settings.NoiseProvider.GetValue((vertex.x - offset + position.x) / settings.Length, (vertex.y - offset + position.z) / settings.Length);
 
 					vertices[v] = new Vector3(vertex.x - offset, noise * settings.Height, vertex.y - offset);
 					colors[v] = settings.Coloring.Evaluate(noise);

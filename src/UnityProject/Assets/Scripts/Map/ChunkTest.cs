@@ -48,7 +48,7 @@ namespace Valtaroth.Hover.Map
 						DetailResolution = m_detailResolution,
 						Length = m_length,
 						Height = m_height,
-						NoiseProvider = new EmptyNoiseProvider(),
+						NoiseProvider = new PerlinNoiseProvider(),
 						Coloring = m_coloring,
 						Prefab = m_chunkPrefab,
 						Parent = new GameObject("Terrain").transform
