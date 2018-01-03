@@ -23,6 +23,13 @@ namespace Valtaroth.Hover.Map
 		[SerializeField]
 		private Gradient m_coloring;
 
+		[Header("Noise")]
+		[SerializeField]
+		private int m_seed;
+
+		[SerializeField]
+		private float m_scale;
+
 		[Header("Tiling")]
 		[SerializeField]
 		private int m_viewRadius;
@@ -32,7 +39,7 @@ namespace Valtaroth.Hover.Map
 		
 		[SerializeField]
 		private Transform[] m_targets;
-
+		
 		private TerrainChunkController m_chunkController;
 		
 		private void FixedUpdate()
@@ -48,7 +55,7 @@ namespace Valtaroth.Hover.Map
 						DetailResolution = m_detailResolution,
 						Length = m_length,
 						Height = m_height,
-						NoiseProvider = new PerlinNoiseProvider(),
+						NoiseProvider = new UnityNoiseProvider(m_seed, m_scale),
 						Coloring = m_coloring,
 						Prefab = m_chunkPrefab,
 						Parent = new GameObject("Terrain").transform

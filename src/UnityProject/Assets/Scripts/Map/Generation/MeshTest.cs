@@ -43,7 +43,7 @@ namespace Valtaroth.Hover.Map.Generation
 							DetailResolution = m_resolution,
 							Length = 1,
 							Height = 1,
-							NoiseProvider = new PerlinNoiseProvider(),
+							NoiseProvider = new UnityNoiseProvider(),
 							Coloring = m_coloring
 						}
 					);
