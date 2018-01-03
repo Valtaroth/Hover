@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Valtaroth.Core.UI;
 
-namespace Hover.UI
+namespace Valtaroth.Hover.UI
 {
 	public class MainMenuUI : MonoBehaviour, IUIScene
 	{

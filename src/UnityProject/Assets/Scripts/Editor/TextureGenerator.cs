@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Hover
+namespace Valtaroth.Hover
 {
 	public class TextureGenerator : EditorWindow
 	{
