@@ -15,11 +15,11 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
   m_Fog: 0
-  m_FogColor: {r: 0.8161765, g: 0.76833165, b: 0.6121324, a: 1}
-  m_FogMode: 3
+  m_FogColor: {r: 0.882353, g: 1, b: 1, a: 1}
+  m_FogMode: 1
   m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_LinearFogStart: 400
+  m_LinearFogEnd: 800
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -180,8 +180,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   m_seed: 30
   m_scale: 0.75
-  m_viewRadius: 5
-  m_cacheRadius: 7
+  m_viewRadius: 6
+  m_cacheRadius: 10
   m_targets:
   - {fileID: 361101704}
 --- !u!4 &1059315032
@@ -241,10 +241,6 @@ Prefab:
       propertyPath: m_target
       value: 
       objectReference: {fileID: 361101704}
-    - target: {fileID: 4587657831804908, guid: 0bb9571b3b90d7a47be0a2785267849c, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0bb9571b3b90d7a47be0a2785267849c, type: 2}
   m_IsPrefabParent: 0

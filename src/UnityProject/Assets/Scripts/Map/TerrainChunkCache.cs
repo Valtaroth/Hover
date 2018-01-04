@@ -71,7 +71,7 @@ namespace Valtaroth.Hover.Map
 			GameObject obj = Object.Instantiate(m_chunkSettings.Prefab, worldPosition, Quaternion.identity, m_chunkSettings.Parent);
 			obj.name = string.Format("Chunk [{0}/{1}]", position.X, position.Z);
 
-			Mesh mesh = TerrainMeshCreator.Create(worldPosition, m_chunkSettings);
+			Mesh mesh = TerrainMeshFactory.Create(worldPosition, m_chunkSettings);
 
 			MeshFilter filter = obj.GetComponent<MeshFilter>();
 			filter.mesh = mesh;

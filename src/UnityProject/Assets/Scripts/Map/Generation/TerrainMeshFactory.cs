@@ -7,7 +7,7 @@ namespace Valtaroth.Hover.Map.Generation
 	/// <summary>
 	/// Utility class used to create planar meshes from noise functions.
 	/// </summary>
-	public static class TerrainMeshCreator
+	public static class TerrainMeshFactory
 	{
 		public static Mesh Create(Vector3 position, TerrainChunkSettings settings)
 		{

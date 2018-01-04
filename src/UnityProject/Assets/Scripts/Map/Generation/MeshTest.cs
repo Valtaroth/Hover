@@ -36,7 +36,7 @@ namespace Valtaroth.Hover.Map.Generation
 
 					Stopwatch watch = new Stopwatch();
 
-					Mesh mesh = TerrainMeshCreator.Create(
+					Mesh mesh = TerrainMeshFactory.Create(
 						position,
 						new TerrainChunkSettings
 						{
